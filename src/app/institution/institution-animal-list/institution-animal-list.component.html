@@ -38,53 +38,46 @@
         <div class="list-container">
           <fieldset>
             <legend>Pets em Adoção</legend>
-            <form (ngSubmit)="filterAnimals()">
+            <form autocomplete="off" (ngSubmit)="searchAnimals()">
               <div class="row">
                 <div class="col-12 col-lg-3">
                   <div class="mb-2">
-                    <label for="statusAdoption">Status de Adoção</label>
-                    <select class="form-select" [(ngModel)]="filters.statusAdoption" name="statusAdoption">
-                      <option value="" disabled selected>Selecione</option>
-                      <option value="IN_PROGRESS">IN_PROGRESS</option>
-                      <option value="PENDING">PENDING</option>
-                      <option value="DONE">DONE</option>
-                    </select>
+                    <label >Status de Adoção</label>
+                    <p-dropdown name="statusAdoption" [options]="statusAdoption" placeholder="Selecione"
+                                [(ngModel)]="filter.statusAdoption"></p-dropdown>
                   </div>
                 </div>
                 <div class="col-12 col-lg-3">
                   <div class="mb-2">
-                    <label for="species">Espécie</label>
-                    <select class="form-select" [(ngModel)]="filters.species" name="species">
-                      <option value="" disabled selected>Selecione</option>
-                      <option value="CACHORRO">Cachorro</option>
-                      <option value="GATO">Gato</option>
-                      <option value="ROEDOR">Roedor</option>
-                      <option value="PEIXE">Peixe</option>
-                      <option value="OUTRO">Outro</option>
-                    </select>
+                    <label>Espécie</label>
+                    <p-dropdown name="type" [options]="type" placeholder="Selecione"
+                                [(ngModel)]="filter.type"></p-dropdown>
                   </div>
                 </div>
-                <div class="col-12 col-lg-3">
-                  <div class="mb-2">
-                    <label for="startDate">Data inicial</label>
-                    <input type="date" [(ngModel)]="filters.startDate" name="startDate" class="form-control">
-                  </div>
-                </div>
-                <div class="col-12 col-lg-3">
-                  <div class="mb-2">
-                    <label for="endDate">Data final</label>
-                    <input type="date" [(ngModel)]="filters.endDate" name="endDate" class="form-control">
-                  </div>
-                </div>
+<!--                <div class="col-12 col-lg-3">-->
+<!--                  <div class="mb-2">-->
+<!--                    <label for="startDate">Data inicial</label>-->
+<!--                    <input type="date" [(ngModel)]="filters.startDate" name="startDate" class="form-control">-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="col-12 col-lg-3">-->
+<!--                  <div class="mb-2">-->
+<!--                    <label for="endDate">Data final</label>-->
+<!--                    <input type="date" [(ngModel)]="filters.endDate" name="endDate" class="form-control">-->
+<!--                  </div>-->
+<!--                </div>-->
                 <div class="col-12 col-lg-3 mt-4">
-                  <button type="submit" class="btn btn-primary">Filtrar</button>
+                  <button pButton type="submit" class="btn btn-primary">Filtrar</button>
                 </div>
               </div>
             </form>
           </fieldset>
         </div>
-      
-        <table class="table table-responsive table-striped table-hover">
+
+        <p-table [value]="animals" responsiveLayout="stack" [breakpoint]="'768px'"
+                 [paginator]="true" [rows]="filter.itensPerPage"
+                 [lazy]="true" [totalRecords]="totalRecords"
+                 (onLazyLoad)="whenChangePage($event)">
           <tr>
             <th>#</th>
             <th>Espécie</th>
@@ -95,21 +88,37 @@
             <th>Instituição</th>
             <th>Ações</th>
           </tr>
-          <tr *ngFor="let animal of filteredAnimals; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ animal.species }}</td>
-            <td>{{ animal.name }}</td>
-            <td>{{ animal.gender }}</td>
-            <td>{{ animal.birthDate | date:'dd/MM/yyyy' }}</td>
-            <td>{{ animal.adopter }}</td>
-            <td>{{ animal.institution }}</td>
-            <td>
-              <button class="btn btn-warning" (click)="editAnimal(animal.id)">Editar</button>
-              <button class="btn btn-danger" (click)="deleteAnimal(animal.id)">Deletar</button>
-            </td>
-          </tr>
-        </table>
-      
+          <ng-template pTemplate="body" let-animals>
+            <tr><!--*ngFor="let animal of filteredAnimals; let i = index"-->
+              <td>{{ i + 1 }}</td>
+              <td>{{ animal.species }}</td>
+              <td>{{ animal.name }}</td>
+              <td>{{ animal.gender }}</td>
+              <td>{{ animal.birthDate | date:'dd/MM/yyyy' }}</td>
+              <td>{{ animal.adopter }}</td>
+              <td>{{ animal.institution }}</td>
+              <td class="col-actions">
+                <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"
+                   [routerLink]="['/animals', animal.id]"></a>
+                <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top"
+                        (click)="confirmRemoval(animal)"
+                        [disabled]="!auth.hasPermission('ROLE_REMOVE_INSTITUTION')"></button>
+              </td>
+<!--              <td>-->
+<!--                <button class="btn btn-warning" (click)="editAnimal(animal.id)">Editar</button>-->
+<!--                <button class="btn btn-danger" (click)="deleteAnimal(animal.id)">Deletar</button>-->
+<!--              </td>-->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+              <td>
+                Nenhuma animal cadastrada.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
         <div *ngIf="filteredAnimals.length === 0" class="mt-3">
           Nenhum animal encontrado.
         </div>
