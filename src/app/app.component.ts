@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'ifitness-ui';
+  title = 'petpar-ui';
 
   constructor(private router: Router){}
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro Adotante</title>
+    <title>Cadastro Instituicao</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,43 +39,44 @@
 
 <!-- Formulário de Cadastro -->
 <div class="cadastro-container">
-  <form #f="ngForm" autocomplete="off" (ngSubmit)="save(f)">
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
     <fieldset>
-      <legend>Cadastro de Adotante</legend>
+      <legend>Cadastro de Instituição</legend>
 
       <div class="inputBox">
-        <label for="name">Nome:</label>
-        <input pInputText type="text" id="name" name="name" [(ngModel)]="user.name" #name="ngModel" required >
+        <label for="name">Nome da Instituição:</label>
+        <input pInputText type="text" id="name" name="name" [(ngModel)]="institution.name" #name="ngModel" required >
       </div>
+
+      <div class="inputBox">
+        <label for="description">Descrição:</label>
+        <textarea pInputText id="description" name="description" rows="4" [(ngModel)]="institution.description" #description="ngModel" required ></textarea>
+      </div>
+
       <div class="inputBox">
         <label for="email">Email:</label>
-        <input pInputText type="email" id="email" name="email"[(ngModel)]="user.email" #email="ngModel" required>
+        <input pInputText type="email" id="email" name="email"  [(ngModel)]="institution.email" #email="ngModel" required >
       </div>
+
       <div class="inputBox">
         <label for="password">Senha:</label>
-        <input pInputText type="password" id="password" name="password" [(ngModel)]="user.password" #password="ngModel" required >
+        <input pInputText type="password" id="password" name="password" [(ngModel)]="institution.password" #password="ngModel" required>
       </div>
+
       <div class="inputBox">
-        <label for="dateOfBirth">Data de Nascimento:</label>
-        <input pInputText type="date" id="dateOfBirth" name="dateOfBirth" [(ngModel)]="user.dateOfBirth" #dateOfBirth="ngModel" required >
+        <label for="cpfOrCnpj">CPF ou CNPJ:</label>
+        <input pInputText type="text" id="cpfOrCnpj" name="cpfOrCnpj" [(ngModel)]="institution.cpfOrCnpj" #cpfOrCnpj="ngModel" required>
       </div>
-      <div class="inputBox">
-        <label for="cpf">CPF:</label>
-        <input pInputText type="text" id="cpf" name="cpf" [(ngModel)]="user.cpf" #cpf="ngModel" required >
-      </div>
+
       <div class="inputBox">
         <label for="phoneNumber">Número de Telefone:</label>
-        <input type="text" id="phoneNumber" name="phoneNumber" [(ngModel)]="user.phoneNumber" #phoneNumber="ngModel" required >
+        <input pInputText type="text" id="phoneNumber" name="phoneNumber"  [(ngModel)]="institution.phoneNumber" #phoneNumber="ngModel" required>
       </div>
-      <div class="inputBox">
-        <label>Gênero:</label>
-        <p-dropdown name="gender" [options]="genders" placeholder="Selecione"
-                    [(ngModel)]="user.gender" #type="ngModel" required></p-dropdown>
-      </div>
+
       <button type="submit">Cadastrar</button>
     </fieldset>
   </form>
-  <p class="text-white">Já tem uma conta? <a routerLink="/user-login">Faça login</a></p>
+  <p class="text-white">Já tem uma conta? <a routerLink="/institution-login">Faça login</a></p>
 </div>
 <br>
 <br>

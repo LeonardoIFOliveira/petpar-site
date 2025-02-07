@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'ifitness-ui'`, () => {
+  it(`should have as title 'petpar-ui'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('ifitness-ui');
+    expect(app.title).toEqual('petpar-ui');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ifitness-ui');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, petpar-ui');
   });
 });

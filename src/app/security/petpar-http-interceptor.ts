@@ -7,7 +7,7 @@ import { mergeMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable()
-export class IfitnessHttpInterceptor implements HttpInterceptor {
+export class PetparHttpInterceptor implements HttpInterceptor {
 
   constructor(private auth: AuthService) {}
 

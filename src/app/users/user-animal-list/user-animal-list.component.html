@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Animais para Adoção - PetPar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg" style="background-color: #cb8c63; box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); padding: 10px;">
+        <div class="container-fluid">
+          <a class="navbar-brand d-flex align-items-center" href="#">
+            <img alt="logo" src="assets/img/logoPetPar.png" class="logo" height="55" width="200">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto gap-3">
+              <li class="nav-item">
+                <a routerLink="/user-animal-list" class="nav-link" style="text-decoration: none; color: white;">Lista de Pets</a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="/animal-user-profile" class="nav-link" style="text-decoration: none; color: white;">Andamento da adoção</a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="/donation-user-list" class="nav-link" style="text-decoration: none; color: white;">Faça uma doação!</a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="/logout" class="nav-link" style="text-decoration: none; color: white;">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container">
+        <div class="list-container">
+          <fieldset>
+            <legend>Pets Disponíveis para Adoção</legend>
+            <form autocomplete="off" (ngSubmit)="search()">
+              <div class="row">
+                <div class="col-12 col-lg-3">
+                  <div class="mb-2">
+                    <label >Espécie</label>
+                    <p-dropdown name="species" [options]="species" placeholder="Selecione"
+                                [(ngModel)]="filter.species"></p-dropdown>
+                  </div>
+                </div>
+<!--                <div class="col-12 col-lg-3">-->
+<!--                  <div class="mb-2">-->
+<!--                    <label >Idade Mínima</label>-->
+<!--                    <input type="date" [(ngModel)]="filters.startDate" name="startDate" class="form-control">-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="col-12 col-lg-3">-->
+<!--                  <div class="mb-2">-->
+<!--                    <label for="endDate">Idade Máxima</label>-->
+<!--                    <input type="date" [(ngModel)]="filters.endDate" name="endDate" class="form-control">-->
+<!--                  </div>-->
+<!--                </div>-->
+                <div class="col-12 col-lg-3 mt-4">
+                  <button pButton type="submit" class="btn btn-primary">Filtrar</button>
+                </div>
+              </div>
+            </form>
+          </fieldset>
+        </div>
+
+        <p-table [value]="activities" responsiveLayout="stack" [breakpoint]="'768px'"
+                 [paginator]="true" [rows]="filter.itensPerPage"
+                 [lazy]="true" [totalRecords]="totalRecords"
+                 (onLazyLoad)="whenChangePage($event)">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>#</th>
+              <th>Espécie</th>
+              <th>Nome</th>
+              <th>Gênero</th>
+              <th>Data de Nascimento</th>
+  <!--            <th>Localização</th>-->
+              <th>Ações</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-animal>
+            <tr> <!--*ngFor="let animal of filteredAnimals; let i = index"-->
+              <td>{{ i + 1 }}</td>
+              <td>{{ animal.species }}</td>
+              <td>{{ animal.name }}</td>
+              <td>{{ animal.gender }}</td>
+              <td>{{ animal.birthDate | date:'dd/MM/yyyy' }}</td>
+  <!--            <td>{{ animal.location }}</td>-->
+              <td>
+                <button pButton class="btn btn-success" (click)="requestAdoption(animal)"
+                        [disabled]="!auth.hasPermission('ROLE_REGISTER_USER')">Adotar</button>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+              <td>
+                Nenhum animal encontrado.
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+      </div>
+      <br><br>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 import { AuthorizedComponent } from './authorized/authorized.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { IfitnessHttpInterceptor } from './ifitness-http-interceptor';
+import { PetparHttpInterceptor } from './petpar-http-interceptor';
 
 export function tokenGetter(): string {
   return localStorage.getItem('token')!;
@@ -27,7 +27,7 @@ export function tokenGetter(): string {
     JwtHelperService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: IfitnessHttpInterceptor,
+      useClass: PetparHttpInterceptor,
       multi: true
     }
   ]
