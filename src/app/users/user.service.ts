@@ -1,12 +1,18 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../core/model';
+import { Animal } from '../core/model';
 
 export class AnimalUserFilter {
   user?: any;
   type?: string;
   page = 0;
   itensPerPage = 5;
+}
+
+export class AnimalAdoption {
+  user?: any;
+  id?: string;
 }
 
 @Injectable({
@@ -45,14 +51,6 @@ export class UserService {
       if (filter.type) {
         params = params.set('type', filter.type);
       }
-//
-//       if (filter.initialDate) {
-//         params = params.set('initialDate', this.datePipe.transform(filter.initialDate, 'yyyy-MM-dd')!);
-//       }
-//
-//       if (filter.finalDate) {
-//         params = params.set('finalDate', this.datePipe.transform(filter.finalDate, 'yyyy-MM-dd')!);
-//       }
 
       const response: any = await this.http.get(`${this.animalUrl}?resumo`, { headers, params })
         .toPromise();
@@ -64,19 +62,23 @@ export class UserService {
       return result;
   }
 
+  loadAnimal(id: number) {
+    this.institutionService.loadAnimalById(id)
+      .then(animal => {
+        this.animal = animal;
+      })
+      .catch(error => this.errorHandler.handle(error));
+  }
 
-  async requestAdoption(id: string): Promise<any> {
+
+  async solicitarAdocao(adoption: AnimalAdoption): Promise<any> {
     const headers = new HttpHeaders()
       .append('Content-Type', 'application/json');
 
       let params = new HttpParams()
-              .set('animalId', id)
-              .set('userId', '1') //TODO
+              .set('animalId', adoption.id)
+              .set('userId', adoption.user.id) //TODO
               .set('status', 'IN_PROGRESS');
-
-//             if(filter.user){
-//               params = params.set('user', filter.user);
-//             }
 
     const response = await this.http.put<any>(`${this.adoptionUrl}`,{ headers, params })
       .toPromise();
@@ -84,5 +86,21 @@ export class UserService {
     this.stringToDate(updated);
     return updated;
   }
+
+  async requestAdoption(id: number): Promise<any> {
+      const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json');
+      let user_id = this.route.snapshot.params[`user_id`];
+      let params = new HttpParams()
+              .set('animalId', id)
+              .set('userId', user_id) //TODO
+              .set('status', 'IN_PROGRESS');
+
+      const response = await this.http.put<any>(`${this.adoptionUrl}`,{ headers, params })
+        .toPromise();
+      const updated = response;
+      this.stringToDate(updated);
+      return updated;
+    }
 
 }

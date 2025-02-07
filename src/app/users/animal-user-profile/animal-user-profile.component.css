@@ -1,0 +1,60 @@
+body {
+	background-image: url('/assets/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #402c21;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    color: white;
+}
+.navbar {
+    margin-bottom: 20px;
+}
+
+.card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.bg-custom-header {
+    background-color: #BF793B;
+}
+
+.bg-custom-body {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.list-group-item {
+    border: 1px solid #BF793B;
+    color: #8C593B;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.btn-custom {
+    background-color: #BF793B;
+    border: 25px;
+    border-radius: 25px;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #BF8F73;
+}
+
+
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+form {
+    margin-top: 20px;
+}

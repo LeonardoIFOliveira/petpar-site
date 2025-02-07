@@ -8,6 +8,7 @@ import { MessageService } from 'primeng/api';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { UserService } from '../user.service';
 import { User } from '../../core/model';
+
 @Component({
   selector: 'app-user-register',
   templateUrl: './user-register.component.html',
